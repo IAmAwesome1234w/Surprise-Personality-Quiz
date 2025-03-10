@@ -84,13 +84,16 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             display: none;
         }
+        .answer-option {
+            text-align: left;
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 <body>
     <!-- Starter Page -->
     <div id="starter-page">
         <h1>🎭 Fun Personality Quiz 🎭</h1>
-        <p>Find out if we are a match to go to prom! 💖</p>
         <button onclick="startQuiz()">Start Quiz</button>
     </div>
 
@@ -144,17 +147,20 @@
                 const q = quizData[currentQuestion];
                 questionEl.textContent = q.question;
                 answersEl.innerHTML = "";
-                const shuffledAnswers = q.answers.sort(() => Math.random() - 0.5); // Shuffle answers
 
-                shuffledAnswers.forEach(answer => {
-                    const btn = document.createElement("button");
-                    btn.textContent = answer;
-                    btn.onclick = () => {
+                const options = ['a', 'b', 'c', 'd'];
+                q.answers.forEach((answer, index) => {
+                    const optionLabel = options[index];
+                    const answerElement = document.createElement("div");
+                    answerElement.classList.add("answer-option");
+                    answerElement.innerHTML = `<span>${optionLabel}) </span><span>${answer}</span>`;
+                    answerElement.onclick = () => {
                         nextBtn.classList.remove("hidden");
                         answersEl.innerHTML = ""; // Clear answers after selection
                     };
-                    answersEl.appendChild(btn);
+                    answersEl.appendChild(answerElement);
                 });
+
                 nextBtn.classList.add("hidden"); // Hide next button until an answer is clicked
             } else {
                 showSubmitPage();
