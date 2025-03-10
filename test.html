@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffeb3b;
+            padding: 20px;
+            transition: background-color 1s, color 1s;
+        }
+        #quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+            transition: background 1s;
+        }
+        .hidden {
+            display: none;
+        }
+        button {
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #e64a19;
+        }
+        .romantic-theme {
+            background-color: #ffccd5 !important;
+            color: #d81b60 !important;
+        }
+        .romantic-theme #quiz-container {
+            background: #fff0f5 !important;
+        }
+        .romantic-theme h2 {
+            color: #c2185b !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h2 id="question">Loading...</h2>
+        <div id="answers"></div>
+        <button id="next-btn" class="hidden" onclick="nextQuestion()">Next</button>
+        <div id="result" class="hidden">
+            <h2>🎉 You are 100% compatible with me to go to Prom! 🎉</h2>
+            <p>💖 Can't wait for an amazing night with you! 💖</p>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            { question: "What’s your go-to movie genre?", answers: ["Comedy", "Action", "Romance", "Sci-Fi"] },
+            { question: "Pick a snack:", answers: ["Popcorn", "Chocolate", "Fries", "Ice Cream"] },
+            { question: "What’s your ideal weekend?", answers: ["Hiking", "Watching Movies", "Hanging Out", "Gaming"] },
+            { question: "Choose a pet:", answers: ["Dog", "Cat", "Fish", "Turtle"] }
+        ];
+
+        let currentQuestion = 0;
+        const questionEl = document.getElementById("question");
+        const answersEl = document.getElementById("answers");
+        const nextBtn = document.getElementById("next-btn");
+        const resultEl = document.getElementById("result");
+
+        function loadQuestion() {
+            if (currentQuestion < quizData.length) {
+                const q = quizData[currentQuestion];
+                questionEl.textContent = q.question;
+                answersEl.innerHTML = "";
+                q.answers.forEach(answer => {
+                    const btn = document.createElement("button");
+                    btn.textContent = answer;
+                    btn.onclick = () => nextQuestion();
+                    answersEl.appendChild(btn);
+                });
+                nextBtn.classList.add("hidden");
+            } else {
+                showResult();
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            loadQuestion();
+        }
+
+        function showResult() {
+            document.body.classList.add("romantic-theme");
+            document.getElementById("quiz-container").innerHTML = "";
+            resultEl.classList.remove("hidden");
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
