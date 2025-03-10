@@ -75,11 +75,27 @@
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0); }
         }
+        #calculating-page {
+            font-size: 24px;
+            padding: 20px;
+            margin-top: 20px;
+            background-color: #fff0f5;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <h1>🎭 Fun Personality Quiz 🎭</h1>
-    <div id="quiz-container">
+    <!-- Starter Page -->
+    <div id="starter-page">
+        <h1>🎭 Fun Personality Quiz 🎭</h1>
+        <p>Find out if we are a match to go to prom! 💖</p>
+        <button onclick="startQuiz()">Start Quiz</button>
+    </div>
+
+    <!-- Quiz Page -->
+    <div id="quiz-container" class="hidden">
         <h2 id="question">Loading...</h2>
         <div id="answers"></div>
         <button id="next-btn" class="hidden" onclick="nextQuestion()">Next</button>
@@ -88,6 +104,13 @@
             <p>💖 Can't wait for an amazing night with you! 💖</p>
         </div>
     </div>
+
+    <!-- Calculating Page -->
+    <div id="calculating-page" class="hidden">
+        <h2>💻 Calculating Responses... 💻</h2>
+        <p>Please wait while we process your answers.</p>
+    </div>
+
     <div class="decorations">
         <span class="heart">❤️</span>
         <span class="heart">💖</span>
@@ -108,21 +131,33 @@
         const answersEl = document.getElementById("answers");
         const nextBtn = document.getElementById("next-btn");
         const resultEl = document.getElementById("result");
+        const calculatingPage = document.getElementById("calculating-page");
+
+        function startQuiz() {
+            document.getElementById("starter-page").classList.add("hidden");
+            document.getElementById("quiz-container").classList.remove("hidden");
+            loadQuestion();
+        }
 
         function loadQuestion() {
             if (currentQuestion < quizData.length) {
                 const q = quizData[currentQuestion];
                 questionEl.textContent = q.question;
                 answersEl.innerHTML = "";
-                q.answers.forEach(answer => {
+                const shuffledAnswers = q.answers.sort(() => Math.random() - 0.5); // Shuffle answers
+
+                shuffledAnswers.forEach(answer => {
                     const btn = document.createElement("button");
                     btn.textContent = answer;
-                    btn.onclick = () => nextQuestion();
+                    btn.onclick = () => {
+                        nextBtn.classList.remove("hidden");
+                        answersEl.innerHTML = ""; // Clear answers after selection
+                    };
                     answersEl.appendChild(btn);
                 });
-                nextBtn.classList.add("hidden");
+                nextBtn.classList.add("hidden"); // Hide next button until an answer is clicked
             } else {
-                showResult();
+                showSubmitPage();
             }
         }
 
@@ -131,13 +166,22 @@
             loadQuestion();
         }
 
+        function showSubmitPage() {
+            document.getElementById("quiz-container").classList.add("hidden");
+            calculatingPage.classList.remove("hidden");
+
+            // Simulate calculating delay, then show result
+            setTimeout(() => {
+                calculatingPage.classList.add("hidden");
+                showResult();
+            }, 3000); // 3 seconds delay to simulate calculation
+        }
+
         function showResult() {
             document.body.classList.add("romantic-theme");
             document.getElementById("quiz-container").innerHTML = "";
             resultEl.classList.remove("hidden");
         }
-
-        loadQuestion();
     </script>
 </body>
 </html>
