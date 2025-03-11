@@ -328,7 +328,7 @@
     </div>
 
     <script>
-        const quizDatabase = [
+const quizDatabase = [
     { question: "What’s your go-to movie genre?", answers: ["Comedy", "Action", "Romance", "Sci-Fi"] },
     { question: "Pick a snack:", answers: ["Popcorn", "Chocolate", "Fries", "Ice Cream"] },
     { question: "What’s your ideal weekend?", answers: ["Hiking", "Watching Movies", "Hanging Out", "Gaming"] },
@@ -372,30 +372,18 @@
     { question: "What’s your favorite type of movie?", answers: ["Action", "Comedy", "Romance", "Drama"] },
     { question: "Do you like to stay at home or go out?", answers: ["Stay at home", "Go out", "Both", "It depends on the mood"] },
     { question: "What’s your favorite type of book?", answers: ["Fiction", "Non-fiction", "Fantasy", "Biography"] },
-    { question: "Are you a night owl or an early bird?", answers: ["Night owl", "Early bird", "Neither", "It depends"] },
-    { question: "What’s your idea of a fun night?", answers: ["Movie night", "Dinner with friends", "Going out dancing", "Relaxing at home"] },
-    { question: "How do you feel about technology?", answers: ["Love it", "Indifferent", "Hate it", "I use it when necessary"] },
-    { question: "What’s your favorite thing to do on a rainy day?", answers: ["Read", "Watch TV", "Sleep", "Go out anyway"] },
-    { question: "How do you feel about social media?", answers: ["Love it", "Hate it", "I use it occasionally", "I don’t use it"] },
-    { question: "What’s your idea of a perfect weekend?", answers: ["Relaxing at home", "Exploring new places", "Hanging out with friends", "Working on a project"] },
-    { question: "What’s your favorite season?", answers: ["Spring", "Summer", "Fall", "Winter"] },
-    { question: "How do you feel about work-life balance?", answers: ["It’s important", "I prioritize work", "I prioritize life", "I’m still figuring it out"] },
-    { question: "How do you handle conflict?", answers: ["Talk it out", "Avoid it", "Seek compromise", "Get defensive"] },
-    { question: "Do you prefer to work in a team or alone?", answers: ["Team", "Alone", "Depends on the task", "I like both equally"] },
-    { question: "What’s your favorite way to relax?", answers: ["Watching TV", "Taking a bath", "Reading", "Going for a walk"] },
-    { question: "Do you like to sing?", answers: ["Yes", "No", "Sometimes", "I prefer to listen"] },
-    { question: "How do you like your coffee?", answers: ["Black", "With milk", "With sugar", "I don’t drink coffee"] },
-    { question: "Do you enjoy gardening?", answers: ["Yes", "No", "I’d like to try", "Not interested"] },
-    { question: "How would you describe your sense of humor?", answers: ["Dry", "Silly", "Sarcastic", "Slapstick"] },
     { question: "Are you a risk taker?", answers: ["Yes", "No", "Sometimes", "It depends"] },
-    { question: "Do you like surprises?", answers: ["Yes", "No", "Depends on the type", "I prefer to know things beforehand"] },
-    { question: "What’s your idea of a perfect evening?", answers: ["Relaxing with a book", "Spending time with family", "A night out with friends", "Having a quiet night in"] },
-    { question: "Do you prefer simple or elaborate plans?", answers: ["Simple", "Elaborate", "It depends", "I like both"] },
-    { question: "What’s your favorite type of animal?", answers: ["Dogs", "Cats", "Birds", "Reptiles"] },
-    { question: "How do you feel about the outdoors?", answers: ["Love it", "Hate it", "I enjoy it occasionally", "It’s not for me"] },
-    { question: "Do you like to stay organized?", answers: ["Yes", "No", "Sometimes", "I try to be"] },
-    { question: "Do you prefer reading physical books or e-books?", answers: ["Physical books", "E-books", "Both", "I prefer audiobooks"] }
+    { question: "What’s your preferred learning style?", answers: ["Visual", "Auditory", "Reading/Writing", "Kinesthetic"] },
+    { question: "Do you believe in fate?", answers: ["Yes", "No", "Not sure", "Depends on the situation"] },
+    { question: "How do you react to criticism?", answers: ["Take it constructively", "Get defensive", "Ignore it", "It depends on who gives it"] },
+    { question: "Do you consider yourself creative?", answers: ["Yes", "No", "Sometimes", "Only in certain areas"] },
+    { question: "Which board game do you prefer?", answers: ["Monopoly", "Chess", "Scrabble", "Uno"] },
+    { question: "If you could time travel, where would you go?", answers: ["Past", "Future", "Stay in the present", "Both"] },
+    { question: "What’s your dream job?", answers: ["Entrepreneur", "Artist", "Scientist", "Athlete"] },
+    { question: "How do you spend your weekends?", answers: ["Relaxing", "Socializing", "Working", "Exploring new places"] },
+    { question: "How do you handle change?", answers: ["Embrace it", "Struggle with it", "Go with the flow", "Avoid it when possible"] }
 ];
+
 
 
         function getRandomQuestions(questions) {
@@ -601,7 +589,7 @@
                     if(index != montageTexts.length){
                         setTimeout(() => {
                         textElement.style.opacity = 0; // Fade out text
-                        setTimeout(showNextText, 2000); // Delay before showing the next text
+                        setTimeout(showNextText, 1000); // Delay before showing the next text
                     }, 2500); // Show each text for 2.5 seconds
                     }else{
                         setTimeout(showBottomText, 2000);
