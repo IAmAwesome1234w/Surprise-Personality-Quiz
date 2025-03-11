@@ -4,34 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fun Personality Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet"> <!-- Romantic font -->
     <style>
+        /* General Styles */
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #ffeb3b;
+            background: #ffeb3b; /* Bright yellow background */
             padding: 20px;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Adjusted to move content higher */
+            min-height: 100vh;
             transition: background-color 1s, color 1s;
         }
+
+        /* Fun Title */
+        #title {
+            font-family: 'Luckiest Guy', cursive;
+            font-size: 48px;
+            color: #ff5722;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Starter Page */
+        #starter-page p {
+            font-size: 28px; /* Larger text */
+            margin-bottom: 25px;
+        }
+
+        #starter-page button {
+            font-size: 20px; /* Larger button text */
+            padding: 15px 30px; /* Bigger button */
+        }
+
+        /* Quiz Container */
         #quiz-container {
             background: white;
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             max-width: 600px;
-            margin: auto;
-            margin-top: 20px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
             transition: background 1s;
+            margin-top: 20px; /* Adjusted to move content higher */
         }
+
+        /* Headings */
         h1 {
             font-size: 28px;
             margin-bottom: 10px;
         }
+
         h2 {
-            font-size: 22px;
+            font-size: 28px;
         }
+
+        /* Hidden Class */
         .hidden {
             display: none;
         }
+
+        /* Buttons */
         button {
             background-color: #ff5722;
             color: white;
@@ -42,58 +84,213 @@
             border-radius: 8px;
             font-size: 16px;
         }
+
         button:hover {
             background-color: #e64a19;
         }
+
+        /* Romantic Theme */
         .romantic-theme {
-            background-color: #ffccd5 !important;
+            background: linear-gradient(135deg, #ff6f61, #ffccd5) !important;
             color: #d81b60 !important;
         }
+
         .romantic-theme #quiz-container {
             background: #fff0f5 !important;
             border: 3px solid #d81b60;
         }
+
         .romantic-theme h2 {
             color: #c2185b !important;
         }
-        .decorations {
-            position: absolute;
-            width: 100%;
-            top: 0;
-            left: 0;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            pointer-events: none;
+
+
+        /* Loading Spinner */
+        #loading-spinner {
+            margin: 20px auto;
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #ff5722;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1.5s linear infinite;
         }
-        .heart {
-            font-size: 24px;
-            animation: float 3s infinite ease-in-out;
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
-        }
-        #calculating-page {
-            font-size: 24px;
-            padding: 20px;
-            margin-top: 20px;
-            background-color: #fff0f5;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            display: none;
-        }
+
+        /* Answer Options */
         .answer-option {
             text-align: left;
             margin-bottom: 12px;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .answer-option:hover {
+            background-color: #f0f0f0;
+        }
+
+        .selected {
+            background-color: #ffeb3b;
+        }
+
+        /* Navigation Buttons */
+        #navigation-buttons {
+            margin-top: 20px;
+        }
+
+        #navigation-buttons button {
+            margin: 0 10px;
+        }
+
+        /* Question Tracker */
+        #question-tracker {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        /* Background Decorations */
+        .decorations {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star, .sparkle {
+            position: absolute;
+            font-size: 24px;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .sparkle {
+            font-size: 18px;
+            animation: float 4s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(20deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff5722;
+            animation: confetti-fall 5s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* Full-Screen Flash */
+        #flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1000;
+            animation: flash 1s ease-out;
+        }
+
+        @keyframes flash {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Love Hearts */
+        .love-heart {
+            position: absolute;
+            font-size: 24px;
+            color: #ff1493;
+            animation: love-float 10s linear infinite;
+        }
+
+        @keyframes love-float {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* Montage Text */
+        .montage-text {
+            font-family: 'Great Vibes'; /* Romantic font */
+            font-size: 32px;
+            color: #d81b60;
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: opacity 1s ease-in-out;
+            width: 100%; /* Ensure text takes full width */
+            text-align: center; /* Center the text */
+        }
+
+        .below-montage-text {
+            font-family: 'Great Vibes'; /* Romantic font */
+            font-size: 28px;
+            color: #d81b60;
+            opacity: 0;
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* transition: opacity 1s ease-in-out; */
+            width: 100%; /* Ensure text takes full width */
+            text-align: center; /* Center the text */
+        }
+
+        .below-montage-text.change {
+            opacity: 1;
+            transition: all 1s;
+        }
+
+        /* Montage Container */
+        #montage {
+            position: relative;
+            width: 100%;
+            height: 200px; /* Adjust as needed */
+            margin-top: 20px;
+            overflow: hidden;
+            text-align: center; /* Center the text horizontally */
         }
     </style>
 </head>
 <body>
+
+    <audio id="montageMusic" loop>
+        <source src="https://www.mfiles.co.uk/mp3-downloads/debussy-clair-de-lune.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Fun Title -->
+    <div id="title">Fun Personality Quiz</div>
+
     <!-- Starter Page -->
     <div id="starter-page">
-        <h1>🎭 Fun Personality Quiz 🎭</h1>
+        <p>Discover your personality type! 🎉✨</p>
         <button onclick="startQuiz()">Start Quiz</button>
     </div>
 
@@ -101,44 +298,128 @@
     <div id="quiz-container" class="hidden">
         <h2 id="question">Loading...</h2>
         <div id="answers"></div>
-        <button id="next-btn" class="hidden" onclick="nextQuestion()">Next</button>
+        <div id="navigation-buttons">
+            <button id="back-btn" class="hidden" onclick="previousQuestion()">Back</button>
+            <button id="next-btn" class="hidden" onclick="nextQuestion()">Next</button>
+        </div>
+        <div id="question-tracker"></div>
+        <div id="calculating" class="hidden">
+            <h2>💻 Calculating Your Personality... 💻</h2>
+            <div id="loading-spinner"></div>
+        </div>
         <div id="result" class="hidden">
-            <h2>🎉 You are 100% compatible with me to go to Prom! 🎉</h2>
-            <p>💖 Can't wait for an amazing night with you! 💖</p>
+            <h2>🎉 You are 100% compatible with me! 🎉</h2>
+            <div id="montage"></div>
+            <div id="below-montage"></div>
         </div>
     </div>
 
-    <!-- Calculating Page -->
-    <div id="calculating-page" class="hidden">
-        <h2>💻 Calculating Responses... 💻</h2>
-        <p>Please wait while we process your answers.</p>
-    </div>
-
+    <!-- Background Decorations -->
     <div class="decorations">
-        <span class="heart">❤️</span>
-        <span class="heart">💖</span>
-        <span class="heart">💘</span>
-        <span class="heart">💝</span>
+        <span class="star" style="top: 10%; left: 5%;">⭐</span>
+        <span class="star" style="top: 20%; left: 80%;">🌟</span>
+        <span class="sparkle" style="top: 30%; left: 15%;">✨</span>
+        <span class="sparkle" style="top: 40%; left: 90%;">✨</span>
+        <span class="star" style="top: 50%; left: 25%;">⭐</span>
+        <span class="sparkle" style="top: 60%; left: 70%;">✨</span>
+        <span class="star" style="top: 70%; left: 10%;">🌟</span>
+        <span class="sparkle" style="top: 80%; left: 85%;">✨</span>
+        <span class="star" style="top: 90%; left: 50%;">⭐</span>
     </div>
 
     <script>
-        const quizData = [
-            { question: "What’s your go-to movie genre?", answers: ["Comedy", "Action", "Romance", "Sci-Fi"] },
-            { question: "Pick a snack:", answers: ["Popcorn", "Chocolate", "Fries", "Ice Cream"] },
-            { question: "What’s your ideal weekend?", answers: ["Hiking", "Watching Movies", "Hanging Out", "Gaming"] },
-            { question: "Choose a pet:", answers: ["Dog", "Cat", "Fish", "Turtle"] }
-        ];
+        const quizDatabase = [
+    { question: "What’s your go-to movie genre?", answers: ["Comedy", "Action", "Romance", "Sci-Fi"] },
+    { question: "Pick a snack:", answers: ["Popcorn", "Chocolate", "Fries", "Ice Cream"] },
+    { question: "What’s your ideal weekend?", answers: ["Hiking", "Watching Movies", "Hanging Out", "Gaming"] },
+    { question: "Choose a pet:", answers: ["Dog", "Cat", "Fish", "Turtle"] },
+    { question: "If you could live anywhere, where would it be?", answers: ["Beach", "Mountains", "City", "Countryside"] },
+    { question: "Which season do you prefer?", answers: ["Summer", "Autumn", "Winter", "Spring"] },
+    { question: "What’s your favorite type of music?", answers: ["Pop", "Rock", "Classical", "Hip Hop"] },
+    { question: "How do you feel about crowds?", answers: ["Love them", "Hate them", "I'm indifferent", "Depends on the situation"] },
+    { question: "Are you an early riser or a night owl?", answers: ["Early riser", "Night owl", "I sleep in", "It varies"] },
+    { question: "How do you like to spend your free time?", answers: ["Reading", "Working out", "Playing games", "Hanging out with friends"] },
+    { question: "What's your ideal vacation?", answers: ["Relaxing on a beach", "Exploring a new city", "Hiking in nature", "Visiting historical landmarks"] },
+    { question: "Do you prefer texting or calling?", answers: ["Texting", "Calling", "Both", "Neither"] },
+    { question: "Do you consider yourself more introverted or extroverted?", answers: ["Introverted", "Extroverted", "A mix of both", "It depends on the situation"] },
+    { question: "What’s your favorite type of cuisine?", answers: ["Italian", "Mexican", "Japanese", "American"] },
+    { question: "How do you like to celebrate your birthday?", answers: ["Party with friends", "Family dinner", "Quiet day alone", "I don’t celebrate it"] },
+    { question: "Do you like to plan or be spontaneous?", answers: ["Plan", "Spontaneous", "A little of both", "Depends on the situation"] },
+    { question: "How would you describe your fashion style?", answers: ["Casual", "Trendy", "Comfortable", "Formal"] },
+    { question: "What’s your favorite type of weather?", answers: ["Sunny", "Rainy", "Cloudy", "Snowy"] },
+    { question: "Do you like to follow the latest trends?", answers: ["Yes", "No", "Sometimes", "I make my own trends"] },
+    { question: "What’s your favorite type of exercise?", answers: ["Running", "Yoga", "Weightlifting", "Cycling"] },
+    { question: "Are you a morning or night person?", answers: ["Morning", "Night", "Neither", "Depends on the day"] },
+    { question: "What’s your ideal social gathering?", answers: ["Big party", "Small get-together", "One-on-one", "I prefer to stay home"] },
+    { question: "What’s your favorite hobby?", answers: ["Sports", "Reading", "Music", "Art"] },
+    { question: "Do you prefer going to the beach or the mountains?", answers: ["Beach", "Mountains", "Both", "Neither"] },
+    { question: "Do you prefer dogs or cats?", answers: ["Dogs", "Cats", "Both", "Neither"] },
+    { question: "How do you prefer to travel?", answers: ["By car", "By plane", "By train", "On foot"] },
+    { question: "What’s your favorite drink?", answers: ["Coffee", "Tea", "Juice", "Water"] },
+    { question: "Are you an optimist or a realist?", answers: ["Optimist", "Realist", "Pessimist", "It depends"] },
+    { question: "What’s your favorite kind of dessert?", answers: ["Cake", "Pie", "Ice cream", "Cookies"] },
+    { question: "Do you like adventure sports?", answers: ["Yes", "No", "I’ve never tried them", "Sometimes"] },
+    { question: "Do you prefer a calm evening or a night out?", answers: ["Calm evening", "Night out", "Depends on the mood", "I enjoy both equally"] },
+    { question: "How do you feel about surprises?", answers: ["Love them", "Hate them", "I can go either way", "I prefer to know beforehand"] },
+    { question: "Do you like to cook?", answers: ["Yes", "No", "Sometimes", "I prefer eating out"] },
+    { question: "What’s your favorite kind of holiday?", answers: ["Christmas", "Thanksgiving", "Halloween", "New Year’s Eve"] },
+    { question: "How do you handle stress?", answers: ["Relax", "Exercise", "Talk to someone", "Work through it"] },
+    { question: "What’s your idea of a perfect day?", answers: ["Relaxing", "Adventurous", "Productive", "Social"] },
+    { question: "Are you an organized person?", answers: ["Yes", "No", "Sometimes", "I try to be"] },
+    { question: "How do you feel about public speaking?", answers: ["Love it", "Hate it", "I’m okay with it", "I get nervous"] },
+    { question: "Do you enjoy surprises?", answers: ["Yes", "No", "Depends on the situation", "I like to be prepared"] },
+    { question: "Do you like to plan ahead?", answers: ["Yes", "No", "Sometimes", "I prefer to go with the flow"] },
+    { question: "What’s your favorite type of movie?", answers: ["Action", "Comedy", "Romance", "Drama"] },
+    { question: "Do you like to stay at home or go out?", answers: ["Stay at home", "Go out", "Both", "It depends on the mood"] },
+    { question: "What’s your favorite type of book?", answers: ["Fiction", "Non-fiction", "Fantasy", "Biography"] },
+    { question: "Are you a night owl or an early bird?", answers: ["Night owl", "Early bird", "Neither", "It depends"] },
+    { question: "What’s your idea of a fun night?", answers: ["Movie night", "Dinner with friends", "Going out dancing", "Relaxing at home"] },
+    { question: "How do you feel about technology?", answers: ["Love it", "Indifferent", "Hate it", "I use it when necessary"] },
+    { question: "What’s your favorite thing to do on a rainy day?", answers: ["Read", "Watch TV", "Sleep", "Go out anyway"] },
+    { question: "How do you feel about social media?", answers: ["Love it", "Hate it", "I use it occasionally", "I don’t use it"] },
+    { question: "What’s your idea of a perfect weekend?", answers: ["Relaxing at home", "Exploring new places", "Hanging out with friends", "Working on a project"] },
+    { question: "What’s your favorite season?", answers: ["Spring", "Summer", "Fall", "Winter"] },
+    { question: "How do you feel about work-life balance?", answers: ["It’s important", "I prioritize work", "I prioritize life", "I’m still figuring it out"] },
+    { question: "How do you handle conflict?", answers: ["Talk it out", "Avoid it", "Seek compromise", "Get defensive"] },
+    { question: "Do you prefer to work in a team or alone?", answers: ["Team", "Alone", "Depends on the task", "I like both equally"] },
+    { question: "What’s your favorite way to relax?", answers: ["Watching TV", "Taking a bath", "Reading", "Going for a walk"] },
+    { question: "Do you like to sing?", answers: ["Yes", "No", "Sometimes", "I prefer to listen"] },
+    { question: "How do you like your coffee?", answers: ["Black", "With milk", "With sugar", "I don’t drink coffee"] },
+    { question: "Do you enjoy gardening?", answers: ["Yes", "No", "I’d like to try", "Not interested"] },
+    { question: "How would you describe your sense of humor?", answers: ["Dry", "Silly", "Sarcastic", "Slapstick"] },
+    { question: "Are you a risk taker?", answers: ["Yes", "No", "Sometimes", "It depends"] },
+    { question: "Do you like surprises?", answers: ["Yes", "No", "Depends on the type", "I prefer to know things beforehand"] },
+    { question: "What’s your idea of a perfect evening?", answers: ["Relaxing with a book", "Spending time with family", "A night out with friends", "Having a quiet night in"] },
+    { question: "Do you prefer simple or elaborate plans?", answers: ["Simple", "Elaborate", "It depends", "I like both"] },
+    { question: "What’s your favorite type of animal?", answers: ["Dogs", "Cats", "Birds", "Reptiles"] },
+    { question: "How do you feel about the outdoors?", answers: ["Love it", "Hate it", "I enjoy it occasionally", "It’s not for me"] },
+    { question: "Do you like to stay organized?", answers: ["Yes", "No", "Sometimes", "I try to be"] },
+    { question: "Do you prefer reading physical books or e-books?", answers: ["Physical books", "E-books", "Both", "I prefer audiobooks"] }
+];
+
+
+        function getRandomQuestions(questions) {
+            const shuffled = questions.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, 5);
+        }
+        
+        const quizData = getRandomQuestions(quizDatabase);
 
         let currentQuestion = 0;
+        const answers = [];
         const questionEl = document.getElementById("question");
         const answersEl = document.getElementById("answers");
         const nextBtn = document.getElementById("next-btn");
+        const backBtn = document.getElementById("back-btn");
         const resultEl = document.getElementById("result");
-        const calculatingPage = document.getElementById("calculating-page");
+        const calculatingEl = document.getElementById("calculating");
+        const questionTracker = document.getElementById("question-tracker");
 
         function startQuiz() {
             document.getElementById("starter-page").classList.add("hidden");
             document.getElementById("quiz-container").classList.remove("hidden");
+            currentQuestion = 0;
+            answers.length = 0;
             loadQuestion();
         }
 
@@ -148,45 +429,187 @@
                 questionEl.textContent = q.question;
                 answersEl.innerHTML = "";
 
-                const options = ['a', 'b', 'c', 'd'];
                 q.answers.forEach((answer, index) => {
-                    const optionLabel = options[index];
                     const answerElement = document.createElement("div");
                     answerElement.classList.add("answer-option");
-                    answerElement.innerHTML = `<span>${optionLabel}) </span><span>${answer}</span>`;
-                    answerElement.onclick = () => {
-                        nextBtn.classList.remove("hidden");
-                        answersEl.innerHTML = ""; // Clear answers after selection
-                    };
+                    answerElement.innerHTML = `${String.fromCharCode(97 + index)}) ${answer}`;
+                    if (answers[currentQuestion] === answer) {
+                        answerElement.classList.add("selected");
+                    }
+                    answerElement.onclick = () => selectAnswer(answerElement, answer);
                     answersEl.appendChild(answerElement);
                 });
 
-                nextBtn.classList.add("hidden"); // Hide next button until an answer is clicked
+                nextBtn.textContent = currentQuestion === quizData.length - 1 ? "Submit" : "Next";
+                nextBtn.classList.remove("hidden");
+                backBtn.classList.toggle("hidden", currentQuestion === 0);
+
+                questionTracker.textContent = `${currentQuestion + 1}/${quizData.length}`;
             } else {
-                showSubmitPage();
+                showCalculating();
             }
         }
 
-        function nextQuestion() {
-            currentQuestion++;
-            loadQuestion();
+        function selectAnswer(element, answer) {
+            const answerOptions = document.querySelectorAll(".answer-option");
+            answerOptions.forEach(option => option.classList.remove("selected"));
+            element.classList.add("selected");
+            answers[currentQuestion] = answer;
         }
 
-        function showSubmitPage() {
-            document.getElementById("quiz-container").classList.add("hidden");
-            calculatingPage.classList.remove("hidden");
+        function nextQuestion() {
+            if (answers[currentQuestion]) {
+                if (currentQuestion === quizData.length - 1) {
+                    showCalculating();
+                } else {
+                    currentQuestion++;
+                    loadQuestion();
+                }
+            } else {
+                alert("Please select an answer before proceeding.");
+            }
+        }
 
-            // Simulate calculating delay, then show result
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function showCalculating() {
+            questionEl.classList.add("hidden");
+            answersEl.classList.add("hidden");
+            nextBtn.classList.add("hidden");
+            backBtn.classList.add("hidden");
+            questionTracker.classList.add("hidden");
+            calculatingEl.classList.remove("hidden");
+
             setTimeout(() => {
-                calculatingPage.classList.add("hidden");
+                calculatingEl.classList.add("hidden");
                 showResult();
-            }, 3000); // 3 seconds delay to simulate calculation
+            }, 5000);
         }
 
         function showResult() {
             document.body.classList.add("romantic-theme");
-            document.getElementById("quiz-container").innerHTML = "";
             resultEl.classList.remove("hidden");
+            createConfetti();
+            createLoveHearts();
+            flashScreen();
+            startMontage();
+        }
+
+        function createConfetti() {
+            const confettiCount = 50; // Reduced number of confetti
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                document.body.appendChild(confetti);
+            }
+        }
+
+        function createLoveHearts() {
+            const heartCount = 50; // Reduced number of love hearts
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement("div");
+                heart.classList.add("love-heart");
+                heart.innerHTML = "💖";
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                document.body.appendChild(heart);
+            }
+        }
+
+        function flashScreen() {
+            const flash = document.createElement("div");
+            flash.id = "flash";
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 1000);
+        }
+
+        function fadeOutDecorations(callback) {
+            const confettiElements = document.querySelectorAll(".confetti");
+            const heartElements = document.querySelectorAll(".love-heart");
+
+            confettiElements.forEach(confetti => {
+                // confetti.style.transition = "opacity 2s";
+                // confetti.style.opacity = 0;
+            });
+
+            heartElements.forEach(heart => {
+                // heart.style.transition = "opacity 2s";
+                // heart.style.opacity = 0;
+            });
+
+            setTimeout(() => {
+                confettiElements.forEach(confetti => confetti.remove());
+                heartElements.forEach(heart => heart.remove());
+                callback(); // Call the montage function after decorations fade out
+            }, 5000); // Adjust timing as needed
+        }
+
+        function startMontage() {
+            document.getElementById("montageMusic").play();
+
+            const montageTexts = [
+                "From the moment I met you...",
+                "I knew you were someone special.",
+                "Your smile, your laugh, your kindness...",
+                "It all makes my day brighter. 💖",
+                "So, here's the real question:",
+                "Will you make me the luckiest person...",
+                "And go to prom with me? 🌹"
+            ];
+
+            let index = 0;
+            const montageContainer = document.getElementById("montage");
+
+            const belowMontageContainer = document.getElementById("below-montage");
+
+            function showBottomText(){
+                const textElement = document.createElement("div");
+                    textElement.classList.add("below-montage-text");
+                    textElement.textContent = "- From your admirer 💖"
+                    belowMontageContainer.innerHTML = ""; // Clear previous text
+                    belowMontageContainer.appendChild(textElement);
+
+                    document.querySelector('.below-montage-text').classList.toggle('change');
+
+            }
+
+            function showNextText() {
+                if (index < montageTexts.length) {
+                    // Create a new div for the text
+                    const textElement = document.createElement("div");
+                    textElement.classList.add("montage-text");
+                    textElement.textContent = montageTexts[index];
+                    montageContainer.innerHTML = ""; // Clear previous text
+                    montageContainer.appendChild(textElement);
+
+                    // Fade in the text
+                    setTimeout(() => {
+                        textElement.style.opacity = 1; // Make text visible
+                    }, 10); // Small delay to ensure the element is added to the DOM
+
+                    index++;
+
+                    // Fade out the text and show the next one
+                    if(index != montageTexts.length){
+                        setTimeout(() => {
+                        textElement.style.opacity = 0; // Fade out text
+                        setTimeout(showNextText, 2000); // Delay before showing the next text
+                    }, 2500); // Show each text for 2.5 seconds
+                    }else{
+                        setTimeout(showBottomText, 2000);
+                    }
+                }
+            }
+
+            showNextText();
         }
     </script>
 </body>
